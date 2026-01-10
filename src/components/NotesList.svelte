@@ -48,6 +48,16 @@
             {/if}
           </div>
 
+          {#if note.attachments?.length}
+            <ul class="note-attachments">
+              {#each note.attachments as file}
+                <li>
+                  <a href={file.url} target="_blank" rel="noopener">{file.name}</a>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+
           <div class="note-footer">
             <div class="note-tags">
               {#each note.tags || [] as tag}
