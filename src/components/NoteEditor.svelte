@@ -9,16 +9,15 @@
   let tagsInput = "";
   let attachments = [];
 
+  // reference to the file input element
+  let fileInput;
+
+  // update fields when editingNote changes
   $: if (editingNote) {
     title = editingNote.title || "";
     content = editingNote.content || "";
     tagsInput = (editingNote.tags || []).join(", ");
     attachments = editingNote.attachments || [];
-  } else {
-    title = "";
-    content = "";
-    tagsInput = "";
-    attachments = [];
   }
 
   function submit() {
@@ -30,10 +29,15 @@
       attachments,
       createdAt: editingNote?.createdAt ?? new Date().toISOString()
     });
+
+    // reset editor
     title = "";
     content = "";
     tagsInput = "";
     attachments = [];
+
+    // clear file input
+    if (fileInput) fileInput.value = "";
   }
 
   function handleFiles(e) {
@@ -45,14 +49,18 @@
   }
 
   function cancel() {
+    title = "";
+    content = "";
+    tagsInput = "";
+    attachments = [];
+
+    if (fileInput) fileInput.value = "";
     dispatch("cancel");
   }
 </script>
 
 <div class="editor-card">
-  <h2 class="section-title">
-    {editingNote ? "Edit note" : "New note"}
-  </h2>
+  <h2 class="section-title">{editingNote ? "Edit note" : "New note"}</h2>
 
   <form on:submit|preventDefault={submit} class="editor-form">
     <label class="field">
@@ -82,6 +90,7 @@
       <span class="field-label">Attachments</span>
 
       <input
+        bind:this={fileInput}         
         id="file-upload"
         type="file"
         multiple
@@ -113,5 +122,4 @@
       </button>
     </div>
   </form>
-
 </div>
