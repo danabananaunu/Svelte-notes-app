@@ -5,26 +5,27 @@
   import { useLocalStorage } from "./lib/useLocalStorage.js";
 
   const notesStore = useLocalStorage("notes", []);
-  let notes = [];
-  notesStore.subscribe(v => notes = v);
+
+  $: notes = $notesStore;
+
 
   let search = "";
   let selectedTag = "All";
   let editingNote = null;
 
   function saveNote(note) {
+    let updatesNotes;
     if (note.id) {
-      notes = notes.map(n => n.id === note.id ? note : n);
+      updatesNotes = notes.map(n => n.id === note.id ? note : n);
     } else {
-      notes = [...notes, { ...note, id: Date.now() }];
+      updatesNotes = [{ ...note, id: Date.now() }, ...notes];
     }
-    notesStore.set(notes);
+    notesStore.set(updatesNotes);
     editingNote = null;
   }
 
   function deleteNote(id) {
-    notes = notes.filter(n => n.id !== id);
-    notesStore.set(notes);
+    notesStore.set(notes.filter(n => n.id !== id));
     if (editingNote?.id === id) editingNote = null;
   }
 
@@ -52,6 +53,7 @@
         {editingNote}
         on:save={e => saveNote(e.detail)}
         on:cancel={() => editingNote = null}
+        key={editingNote}
       />
     </section>
 
