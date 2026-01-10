@@ -3,7 +3,6 @@
 </script>
 
 <header class="app-header">
-  <h1 class="app-title">Notes App</h1>
 
   <input
     type="text"
@@ -12,3 +11,4 @@
     bind:value={search}
   />
 </header>
+
