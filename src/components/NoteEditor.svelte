@@ -30,6 +30,10 @@
       attachments,
       createdAt: editingNote?.createdAt ?? new Date().toISOString()
     });
+    title = "";
+    content = "";
+    tagsInput = "";
+    attachments = [];
   }
 
   function handleFiles(e) {
@@ -109,4 +113,5 @@
       </button>
     </div>
   </form>
+
 </div>
