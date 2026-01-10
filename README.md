@@ -14,5 +14,6 @@ Instructions for setting up:
 • Clone the repository from GitHub
 • Navigate to the project directory
 • Install dependencies using: npm install
-• Start the development server using: npm run dev
+• Create a productiod like version: npm run build
+• Run the code: npm run preview
 • Open the application using the local development URL provided by Vite
